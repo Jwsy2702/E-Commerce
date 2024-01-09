@@ -33,7 +33,7 @@ app.post("/upload", upload.single("product"), (req, res) => {
 });
 
 mongoose.connect(
-  "mongodb+srv://jwongsyy:Whatotherswont2702@cluster0.e4bvpgp.mongodb.net/e-commerce"
+  `mongodb+srv://jwongsyy:${REACT_APP_MONGOOSE_PASSWORD}@cluster0.e4bvpgp.mongodb.net/e-commerce`
 );
 
 // MiddleWare
@@ -127,20 +127,16 @@ app.post("/login", async (req, res) => {
       const token = jwt.sign(data, "secret_ecom");
       res.json({ success, token });
     } else {
-      return res
-        .status(400)
-        .json({
-          success: success,
-          errors: "please try with correct email/password",
-        });
-    }
-  } else {
-    return res
-      .status(400)
-      .json({
+      return res.status(400).json({
         success: success,
         errors: "please try with correct email/password",
       });
+    }
+  } else {
+    return res.status(400).json({
+      success: success,
+      errors: "please try with correct email/password",
+    });
   }
 });
 
@@ -150,12 +146,10 @@ app.post("/signup", async (req, res) => {
   let success = false;
   let check = await Users.findOne({ email: req.body.email });
   if (check) {
-    return res
-      .status(400)
-      .json({
-        success: success,
-        errors: "existing user found with this email",
-      });
+    return res.status(400).json({
+      success: success,
+      errors: "existing user found with this email",
+    });
   }
   let cart = {};
   for (let i = 0; i < 300; i++) {
