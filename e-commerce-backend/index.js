@@ -5,46 +5,58 @@ const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const path = require("path");
+//cross origin resource sharing: security feature to control web app access
 const cors = require("cors");
+//load env variables
+require("dotenv").config();
 
 app.use(express.json());
+//enable cors for all requests
 app.use(cors());
 
 //Image Storage Engine
 const storage = multer.diskStorage({
-  destination: "./upload/images",
+  //multer disk storage configuration
+  destination: "./upload/images", //specify directory where upload files will be stored
   filename: (req, file, cb) => {
     console.log(file);
     return cb(
       null,
+      //file name will be combination of field name, current date and original file extension
       `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`
     );
   },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage: storage }); //initialize multer middleware with above configuration
 
 app.use("/images", express.static("upload/images"));
 app.post("/upload", upload.single("product"), (req, res) => {
   res.json({
     success: 1,
+    //success status and uploaded file url
     image_url: `http://localhost:4000/images/${req.file.filename}`,
   });
 });
 
 mongoose.connect(
-  `mongodb+srv://jwongsyy:${REACT_APP_MONGOOSE_PASSWORD}@cluster0.e4bvpgp.mongodb.net/e-commerce`
+  `mongodb+srv://jwongsyy:${process.env.REACT_APP_MONGOOSE_PASSWORD}@cluster0.e4bvpgp.mongodb.net/e-commerce`
 );
 
 // MiddleWare
 const fetchuser = async (req, res, next) => {
+  //extract the jwt token from request header
   const token = req.header("auth-token");
+  //check if JWT is provided
   if (!token) {
+    //401 = unauthorized
     res.status(401).send({ errors: "Please authenticate using a valid token" });
   }
   try {
+    //verify jwt using secret key
     const data = jwt.verify(token, "secret_ecom");
     req.user = data.user;
+    //call next middleware in stack
     next();
   } catch (error) {
     res.status(401).send({ errors: "Please authenticate using a valid token" });
@@ -175,7 +187,6 @@ app.post("/signup", async (req, res) => {
 
 app.get("/allproducts", async (req, res) => {
   let products = await Product.find({});
-  console.log("All Products");
   res.send(products);
 });
 
