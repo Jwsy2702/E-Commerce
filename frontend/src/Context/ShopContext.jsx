@@ -1,9 +1,11 @@
 import React, { createContext, useState, useEffect } from "react";
 import all_product from "../Components/Assets/all_product";
 
+//share state and functions between components without needing to pass props
 export const ShopContext = createContext(null);
 
 const getDefaultCart = () => {
+  //default cart object
   let cart = {};
   for (let index = 0; index < all_product.length + 1; index++) {
     cart[index] = 0;
@@ -12,6 +14,7 @@ const getDefaultCart = () => {
 };
 
 const ShopContextProvider = (props) => {
+  //state of cart and products
   const [cartItems, setCartItems] = useState(getDefaultCart());
 
   const [products, setProducts] = useState([]);
@@ -26,7 +29,7 @@ const ShopContextProvider = (props) => {
       fetch("http://localhost:4000/getcart", {
         method: "POST",
         headers: {
-          Accept: "application/form-data",
+          Accept: "application/form-data", //specify accepted response media type
           "auth-token": `${localStorage.getItem("auth-token")}`,
           "Content-Type": "application/json",
         },
@@ -101,6 +104,7 @@ const ShopContextProvider = (props) => {
     return totalItem;
   };
 
+  //to be shared with consumer components
   const contextValue = {
     getTotalCartItems,
     getTotalCartAmount,

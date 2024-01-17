@@ -14,22 +14,25 @@ const LoginSignup = () => {
   };
 
   const login = async () => {
+    //to store response data
     let dataObj;
     await fetch("http://localhost:4000/login", {
       method: "POST",
       headers: {
-        Accept: "application/form-data",
-        "Content-Type": "application/json",
+        Accept: "application/form-data", //specify accepted response media type
+        "Content-Type": "application/json", //specify content type of request body
       },
-      body: JSON.stringify(formData),
+      body: JSON.stringify(formData), //JSON format messes up the data, so we need to stringify it
     })
-      .then((resp) => resp.json())
+      .then((resp) => resp.json()) //parse response as JSON
       .then((data) => {
-        dataObj = data;
+        dataObj = data; //store parsed JSON data in dataObj variable
       });
     console.log(dataObj);
     if (dataObj.success) {
+      //if successful login, store token in local storage and redirect to home page
       localStorage.setItem("auth-token", dataObj.token);
+      //redirect to home page
       window.location.replace("/");
     } else {
       alert(dataObj.errors);
