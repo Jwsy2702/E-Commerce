@@ -26,6 +26,10 @@ const ChessCategory = (props) => {
     fetchInfo();
   }, []);
 
+  const sliced = allProducts
+    .filter((item) => props.category === item.category)
+    .slice(0, visibleItems);
+
   return (
     <div className="chess-category">
       <img className="chesscategory-banner" /*src={props.banner}*/ alt="" />
@@ -38,19 +42,16 @@ const ChessCategory = (props) => {
         </div>
       </div>
       <div className="chesscategory-products">
-        {allProducts
-          .filter((item) => props.category === item.category)
-          .slice(0, visibleItems)
-          .map((item, i) => (
-            <Item
-              key={i}
-              id={item.id}
-              name={item.name}
-              image={item.image}
-              new_price={item.new_price}
-              old_price={item.old_price}
-            />
-          ))}
+        {sliced.map((item, i) => (
+          <Item
+            key={i}
+            id={item.id}
+            name={item.name}
+            image={item.image}
+            new_price={item.new_price}
+            old_price={item.old_price}
+          />
+        ))}
       </div>
       <div>
         {visibleItems < allProducts.length && (
