@@ -112,6 +112,10 @@ const AddProduct = () => {
           <option value="women">Women</option>
           <option value="men">Men</option>
           <option value="kid">Kid</option>
+          <option value="chessCourses">Chess Courses</option>
+          <option value="chessMerchandise">Chess Merchandise</option>
+          <option value="chessApparel">Chess Apparel</option>
+          <option value="chessSoftware">Chess Software</option>
         </select>
       </div>
       <div className="addproduct-itemfield">

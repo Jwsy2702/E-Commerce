@@ -1,29 +1,29 @@
-.shopcategory-banner {
+.chesscategory-banner {
   display: block;
   margin: 30px auto;
   width: 82%;
 }
-.shopcategory-indexSort {
+.chesscategory-indexSort {
   display: flex;
   margin: 0px 170px;
   justify-content: space-between;
   align-items: center;
 }
-.shopcategory-sort {
+.chesscategory-sort {
   padding: 10px 20px;
   border-radius: 40px;
   border: 1px solid #888;
 }
-.shopcategory-indexSort p span {
+.chesscategory-indexSort p span {
   font-weight: 600;
 }
-.shopcategory-products {
+.chesscategory-products {
   margin: 20px 170px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   row-gap: 80px;
 }
-.shopcategory-loadmore {
+.chesscategory-loadmore {
   display: flex;
   justify-content: center;
   align-items: center;

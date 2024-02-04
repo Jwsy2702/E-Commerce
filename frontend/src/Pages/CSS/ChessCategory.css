@@ -1,0 +1,59 @@
+.shopcategory-banner {
+  display: block;
+  margin: 30px auto;
+  width: 82%;
+}
+.shopcategory-indexSort {
+  display: flex;
+  margin: 0px 170px;
+  justify-content: space-between;
+  align-items: center;
+}
+.shopcategory-sort {
+  padding: 10px 20px;
+  border-radius: 40px;
+  border: 1px solid #888;
+}
+.shopcategory-indexSort p span {
+  font-weight: 600;
+}
+.shopcategory-products {
+  margin: 20px 170px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  row-gap: 80px;
+}
+.shopcategory-loadmore {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 150px auto;
+  width: 233px;
+  height: 69px;
+  border-radius: 75px;
+  background: #ededed;
+  color: #787878;
+  font-size: 18px;
+  font-weight: 500;
+}
+.chesscategory-loadmore:hover {
+  transform: scale(1.05);
+  transition: 0.6s;
+  cursor: pointer;
+}
+
+.chesscategory-products {
+  display: flex;
+  flex-wrap: wrap;
+}
+.item {
+  margin: 10px; /* Adjust the margin to create space between items */
+  text-align: center; /* Centers the content within the item */
+}
+
+.item img {
+  /* max-width: 100%; Ensures the image doesn't exceed its container width
+  max-height: auto; Maintains the aspect ratio of the image */
+  max-height: 200px; /* Set a fixed height */
+  width: auto; /* Allows the width to adjust proportionally */
+}
