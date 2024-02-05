@@ -16,15 +16,17 @@ const getDefaultCart = () => {
 const ShopContextProvider = (props) => {
   //state of cart and products
   const [cartItems, setCartItems] = useState(getDefaultCart());
+  const [loading, setLoading] = useState(true);
 
   const [products, setProducts] = useState([]);
-
   //fetching all the products from the database
   useEffect(() => {
     fetch("http://localhost:4000/allproducts")
       .then((res) => res.json())
-      .then((data) => setProducts(data));
-
+      .then((data) => {
+        setProducts(data);
+        setLoading(false);
+      });
     if (localStorage.getItem("auth-token")) {
       fetch("http://localhost:4000/getcart", {
         method: "POST",
@@ -85,9 +87,7 @@ const ShopContextProvider = (props) => {
     for (const item in cartItems) {
       if (cartItems[item] > 0) {
         //use products for real data
-        let itemInfo = all_product.find(
-          (product) => product.id === Number(item)
-        );
+        let itemInfo = products.find((product) => product.id === Number(item));
         totalAmount += cartItems[item] * itemInfo.new_price;
       }
     }
@@ -108,11 +108,16 @@ const ShopContextProvider = (props) => {
   const contextValue = {
     getTotalCartItems,
     getTotalCartAmount,
-    all_product,
+    products,
     cartItems,
     addToCart,
     removeFromCart,
   };
+
+  if (loading) {
+    return <h1>Loading...</h1>;
+  }
+
   return (
     //useContext is used to pass the context value to all the components
     //can be used in any component, like a global state.
