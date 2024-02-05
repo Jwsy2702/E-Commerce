@@ -1,14 +1,13 @@
-import React, { useContext, useState, useEffect, useRef } from "react";
+import React, { useContext, useState } from "react";
 import "./CSS/ChessCategory.css";
 import { ShopContext } from "../Context/ShopContext";
 import dropdown_icon from "../Components/Assets/dropdown_icon.png";
 import Item from "../Components/Item/Item";
 
 const ChessCategory = (props) => {
-  //fake data from context
-  const { all_product } = useContext(ShopContext);
-  //real data from server
-  const [allProducts, setAllProducts] = useState([]);
+  const { products } = useContext(ShopContext);
+
+  // const [allProducts, setAllProducts] = useState([]);
   const itemsPerPage = 6;
   const [visibleItems, setVisibleItems] = useState(itemsPerPage);
 
@@ -16,17 +15,18 @@ const ChessCategory = (props) => {
     setVisibleItems(visibleItems + itemsPerPage);
   };
 
-  const fetchInfo = () => {
-    fetch("http://localhost:4000/allproducts")
-      .then((res) => res.json())
-      .then((data) => setAllProducts(data));
-  };
+  //not sure if this is redundant because useeffect in shopcontext already fetches all products
+  // const fetchInfo = () => {
+  //   fetch("http://localhost:4000/allproducts")
+  //     .then((res) => res.json())
+  //     .then((data) => setAllProducts(data));
+  // };
 
-  useEffect(() => {
-    fetchInfo();
-  }, []);
+  // useEffect(() => {
+  //   fetchInfo();
+  // }, []);
 
-  const sliced = allProducts
+  const sliced = products
     .filter((item) => props.category === item.category)
     .slice(0, visibleItems);
 
@@ -54,7 +54,7 @@ const ChessCategory = (props) => {
         ))}
       </div>
       <div>
-        {visibleItems < allProducts.length && (
+        {visibleItems < products.length && (
           <button
             className="chesscategory-loadmore"
             type="button"
