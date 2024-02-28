@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 
 const Breadcrum = (props) => {
   const { product } = props;
-  console.log("product", product);
   function convertToSlug(Text) {
     return Text.replace(/([a-z])([A-Z])/g, "$1-$2") // Add hyphen between lowercase and uppercase letters
       .replace(/[\s_]+/g, "-") // Replace spaces with hyphens

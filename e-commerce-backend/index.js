@@ -230,6 +230,22 @@ app.post("/removefromcart", fetchuser, async (req, res) => {
   res.send("Removed");
 });
 
+app.post("/updatecart", fetchuser, async (req, res) => {
+  try {
+    // Retrieve user data
+    let userData = await Users.findOne({ _id: req.user.id });
+
+    // Update the user's cart data based on the request body
+    userData.cartData = req.body.updatedCartData; // Assuming the request body contains the updated cart data
+    await userData.save();
+
+    res.status(200).json({ message: "Cart updated successfully" });
+  } catch (error) {
+    console.error("Error updating cart:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 //Create an endpoint for saving the product in cart
 app.post("/getcart", fetchuser, async (req, res) => {
   console.log("Get Cart");

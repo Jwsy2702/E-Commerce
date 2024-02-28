@@ -13,7 +13,10 @@ const ShopCategory = (props) => {
   const fetchInfo = () => {
     fetch("http://localhost:4000/allproducts")
       .then((res) => res.json())
-      .then((data) => setAllProducts(data));
+      .then((data) => {
+        setAllProducts(data);
+        console.log("allProducts", allProducts);
+      });
   };
 
   useEffect(() => {

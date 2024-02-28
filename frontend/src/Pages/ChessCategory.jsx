@@ -3,39 +3,43 @@ import "./CSS/ChessCategory.css";
 import { ShopContext } from "../Context/ShopContext";
 import dropdown_icon from "../Components/Assets/dropdown_icon.png";
 import Item from "../Components/Item/Item";
+import arrow_left_circle from "../Components/Assets/arrow-left-circle.svg";
+import arrow_right_circle from "../Components/Assets/arrow-right-circle.svg";
 
 const ChessCategory = (props) => {
   const { products } = useContext(ShopContext);
-
-  // const [allProducts, setAllProducts] = useState([]);
   const itemsPerPage = 6;
-  const [visibleItems, setVisibleItems] = useState(itemsPerPage);
 
-  const showMoreItems = () => {
-    setVisibleItems(visibleItems + itemsPerPage);
-  };
+  const totalPages = Math.ceil(
+    products.filter((item) => props.category === item.category).length /
+      itemsPerPage
+  );
 
-  //not sure if this is redundant because useeffect in shopcontext already fetches all products
-  // const fetchInfo = () => {
-  //   fetch("http://localhost:4000/allproducts")
-  //     .then((res) => res.json())
-  //     .then((data) => setAllProducts(data));
-  // };
-
-  // useEffect(() => {
-  //   fetchInfo();
-  // }, []);
+  const [currentPage, setCurrentPage] = useState(1);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = Math.min(startIndex + itemsPerPage, products.length);
 
   const sliced = products
     .filter((item) => props.category === item.category)
-    .slice(0, visibleItems);
+    .slice(startIndex, endIndex);
+
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+  };
+
+  const handlePrevPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
 
   return (
     <div className="chess-category">
       <img className="chesscategory-banner" /*src={props.banner}*/ alt="" />
       <div className="chesscategory-indexSort">
         <p>
-          <span>Showing 1-15</span> out of 36 products
+          <span>
+            Showing {startIndex + 1}-{endIndex}
+          </span>{" "}
+          out of {products.length} products
         </p>
         <div className="chesscategory-sort">
           Sort by <img src={dropdown_icon} alt="" />
@@ -53,16 +57,26 @@ const ChessCategory = (props) => {
           />
         ))}
       </div>
-      <div>
-        {visibleItems < products.length && (
-          <button
-            className="chesscategory-loadmore"
-            type="button"
-            onClick={showMoreItems}
-          >
-            Explore More
-          </button>
-        )}
+      <div className="next-prev-button">
+        <button
+          className="chesscategory-loadmore"
+          type="button"
+          onClick={handlePrevPage}
+          disabled={currentPage === 1}
+        >
+          <img src={arrow_left_circle} alt="" />
+        </button>
+        <span>
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          className="chesscategory-loadmore"
+          type="button"
+          onClick={handleNextPage}
+          disabled={currentPage === totalPages}
+        >
+          <img src={arrow_right_circle} alt="" />
+        </button>
       </div>
     </div>
   );

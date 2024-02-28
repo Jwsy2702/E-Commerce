@@ -14,7 +14,7 @@ const Navbar = () => {
   return (
     <div className="navbar">
       <div className="nav-logo">
-        <img src={chess_logo} alt="" style={{ "max-width": "60%" }} />
+        <img src={chess_logo} alt="" style={{ maxWidth: "60%" }} />
         <p>Jon Chess</p>
       </div>
       <ul className="nav-menu">

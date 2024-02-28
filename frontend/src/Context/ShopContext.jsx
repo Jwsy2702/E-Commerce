@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
 import all_product from "../Components/Assets/all_product";
+import { useFetch } from "../Hooks/useFetch";
 
 //share state and functions between components without needing to pass props
 export const ShopContext = createContext(null);
@@ -16,17 +17,25 @@ const getDefaultCart = () => {
 const ShopContextProvider = (props) => {
   //state of cart and products
   const [cartItems, setCartItems] = useState(getDefaultCart());
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
+  // const [products, setProducts] = useState([]);
 
-  const [products, setProducts] = useState([]);
-  //fetching all the products from the database
+  // Fetching all the products from the database using useFetch
+  const {
+    data: products,
+    isError,
+    isLoading,
+  } = useFetch("http://localhost:4000/allproducts");
+
   useEffect(() => {
-    fetch("http://localhost:4000/allproducts")
-      .then((res) => res.json())
-      .then((data) => {
-        setProducts(data);
-        setLoading(false);
-      });
+    //taken out because of useFetch
+    // fetch("http://localhost:4000/allproducts")
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     setProducts(data);
+    //     setLoading(false);
+    //   });
+    //TODO: take out using useAuthFetch, but need to consider how to setCartItems in other functions like addToCart and removeFromCart
     if (localStorage.getItem("auth-token")) {
       fetch("http://localhost:4000/getcart", {
         method: "POST",
@@ -46,6 +55,7 @@ const ShopContextProvider = (props) => {
 
   const addToCart = (itemId) => {
     setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
+
     if (localStorage.getItem("auth-token")) {
       fetch("http://localhost:4000/addtocart", {
         method: "POST",
@@ -114,8 +124,11 @@ const ShopContextProvider = (props) => {
     removeFromCart,
   };
 
-  if (loading) {
+  if (isLoading) {
     return <h1>Loading...</h1>;
+  }
+  if (isError) {
+    return <h1>Error...</h1>;
   }
 
   return (
