@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import "./ProductDisplay.css";
 import star_icon from "../Assets/star_icon.png";
-import star_dull_icon from "../Assets/star_dull_icon.png";
+// import star_dull_icon from "../Assets/star_dull_icon.png";
 import { ShopContext } from "../../Context/ShopContext";
 
 const ProductDisplay = (props) => {
@@ -27,7 +27,7 @@ const ProductDisplay = (props) => {
           <img src={star_icon} alt="" />
           <img src={star_icon} alt="" />
           <img src={star_icon} alt="" />
-          <img src={star_dull_icon} alt="" />
+          <img src={star_icon} alt="" />
           <p>(122)</p>
         </div>
         <div className="productdisplay-right-prices">
@@ -39,11 +39,11 @@ const ProductDisplay = (props) => {
           </div>
         </div>
         <div className="productdisplay-right-description">
-          A lightweight, usually knitted, pullover shirt, close-fitting and with
-          a round neckline and short sleeves, worn as an undershirt or outer
-          garment.
+          Introducing our exciting Chess Course for Kids Beginners! Designed
+          with colorful cartoon-themed visuals and an interactive platform,
+          children embark on a captivating journey to master the game of chess.
         </div>
-        <div className="productdisplay-right-size">
+        {/* <div className="productdisplay-right-size">
           <h1>Select Size</h1>
           <div className="productdisplay-right-sizes">
             <div>S</div>
@@ -52,7 +52,8 @@ const ProductDisplay = (props) => {
             <div>XL</div>
             <div>XXl</div>
           </div>
-        </div>
+        </div> */}
+        <br />
         <button
           onClick={() => {
             addToCart(product.id);

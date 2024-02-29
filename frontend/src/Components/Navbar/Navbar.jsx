@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Navbar.css";
 
 import logo from "../Assets/logo.png";
@@ -8,8 +8,15 @@ import { Link } from "react-router-dom";
 import { ShopContext } from "../../Context/ShopContext";
 
 const Navbar = () => {
-  const [menu, setMenu] = useState("shop");
+  //to keep underline on selected menu
+  const [menu, setMenu] = useState(
+    localStorage.getItem("selectedMenu") || "shop"
+  );
   const { getTotalCartItems } = useContext(ShopContext);
+
+  useEffect(() => {
+    localStorage.setItem("selectedMenu", menu);
+  }, [menu]);
 
   return (
     <div className="navbar">
@@ -28,6 +35,7 @@ const Navbar = () => {
           </Link>
           {menu === "shop" ? <hr /> : <></>}
         </li>
+
         <li
           onClick={() => {
             setMenu("chess-courses");
@@ -38,16 +46,18 @@ const Navbar = () => {
           </Link>
           {menu === "chess-courses" ? <hr /> : <></>}
         </li>
+
         <li
           onClick={() => {
-            setMenu("chess-equipment");
+            setMenu("chess-merchandise");
           }}
         >
           <Link style={{ textDecoration: "none" }} to="/chess-equipment">
-            Chess Equipment
+            Chess Merchandise
           </Link>
-          {menu === "chess-equipment" ? <hr /> : <></>}
+          {menu === "chess-merchandise" ? <hr /> : <></>}
         </li>
+
         <li
           onClick={() => {
             setMenu("coaching");
