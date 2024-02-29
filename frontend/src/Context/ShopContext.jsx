@@ -47,9 +47,12 @@ const ShopContextProvider = (props) => {
         },
         body: JSON.stringify(),
       })
-        .then((resp) => resp.json())
+        .then((res) => res.json())
         .then((data) => {
-          if (isMounted) setCartItems(data);
+          if (isMounted) {
+            console.log("data", data);
+            setCartItems(data);
+          }
         })
         .catch((error) => {
           console.error("Error fetching cart data:", error);
@@ -74,7 +77,7 @@ const ShopContextProvider = (props) => {
         },
         body: JSON.stringify({ itemId: itemId }),
       })
-        .then((resp) => resp.json())
+        .then((res) => res.json())
         .then((data) => {
           console.log(data);
         });
@@ -93,7 +96,7 @@ const ShopContextProvider = (props) => {
         },
         body: JSON.stringify({ itemId: itemId }),
       })
-        .then((resp) => resp.json())
+        .then((res) => res.json())
         .then((data) => {
           console.log(data);
         });
@@ -111,7 +114,7 @@ const ShopContextProvider = (props) => {
         },
         body: JSON.stringify({ itemId: itemId }),
       })
-        .then((resp) => resp.json())
+        .then((res) => res.json())
         .then((data) => {
           console.log(data);
         })
@@ -132,12 +135,12 @@ const ShopContextProvider = (props) => {
         },
         body: JSON.stringify({ itemId: itemId }),
       })
-        .then((resp) => resp.json())
+        .then((res) => res.json())
         .then((data) => {
           console.log(data);
         })
         .catch((error) => {
-          console.error("Error decreasing item quantity:", error);
+          console.error("Error increasing item quantity:", error);
         });
     }
   };

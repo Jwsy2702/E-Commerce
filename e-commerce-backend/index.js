@@ -213,7 +213,7 @@ app.post("/addtocart", fetchuser, async (req, res) => {
     { _id: req.user.id },
     { cartData: userData.cartData }
   );
-  res.send("Added");
+  res.send({ message: "Added to cart" });
 });
 
 //Create an endpoint for removing the product in cart
@@ -227,7 +227,7 @@ app.post("/removefromcart", fetchuser, async (req, res) => {
     { _id: req.user.id },
     { cartData: userData.cartData }
   );
-  res.send("Removed");
+  res.send({ message: "Removed" });
 });
 
 //Create an endpoint for decrease product quantity by 1 in cart
@@ -241,7 +241,7 @@ app.post("/decreaseitemquantity", fetchuser, async (req, res) => {
     { _id: req.user.id },
     { cartData: userData.cartData }
   );
-  res.send("Decreased item quantity");
+  res.json({ message: "Decreased item quantity" });
 });
 
 //Create an endpoint for increase product quantity by 1 in cart
@@ -255,7 +255,7 @@ app.post("/increaseitemquantity", fetchuser, async (req, res) => {
     { _id: req.user.id },
     { cartData: userData.cartData }
   );
-  res.send("Increased item quantity");
+  res.json({ message: "Increased item quantity" });
 });
 
 app.post("/updatecart", fetchuser, async (req, res) => {
