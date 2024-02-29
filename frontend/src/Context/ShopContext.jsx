@@ -36,6 +36,7 @@ const ShopContextProvider = (props) => {
     //     setLoading(false);
     //   });
     //TODO: take out using useAuthFetch, but need to consider how to setCartItems in other functions like addToCart and removeFromCart
+    let isMounted = true; // Flag to track component mount status
     if (localStorage.getItem("auth-token")) {
       fetch("http://localhost:4000/getcart", {
         method: "POST",
@@ -48,9 +49,16 @@ const ShopContextProvider = (props) => {
       })
         .then((resp) => resp.json())
         .then((data) => {
-          setCartItems(data);
+          if (isMounted) setCartItems(data);
+        })
+        .catch((error) => {
+          console.error("Error fetching cart data:", error);
         });
     }
+    return () => {
+      // Cleanup function to cancel any pending fetch request
+      isMounted = false; // Set isMounted to false when the component unmounts
+    };
   }, []);
 
   const addToCart = (itemId) => {
@@ -74,7 +82,7 @@ const ShopContextProvider = (props) => {
   };
 
   const removeFromCart = (itemId) => {
-    setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
+    setCartItems((prev) => ({ ...prev, [itemId]: 0 }));
     if (localStorage.getItem("auth-token")) {
       fetch("http://localhost:4000/removefromcart", {
         method: "POST",
@@ -88,6 +96,48 @@ const ShopContextProvider = (props) => {
         .then((resp) => resp.json())
         .then((data) => {
           console.log(data);
+        });
+    }
+  };
+  const decreaseItemQuantity = (itemId) => {
+    setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
+    if (localStorage.getItem("auth-token")) {
+      fetch("http://localhost:4000/decreaseitemquantity", {
+        method: "POST",
+        headers: {
+          Accept: "application/form-data",
+          "auth-token": `${localStorage.getItem("auth-token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ itemId: itemId }),
+      })
+        .then((resp) => resp.json())
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((error) => {
+          console.error("Error decreasing item quantity:", error);
+        });
+    }
+  };
+  const increaseItemQuantity = (itemId) => {
+    setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
+    if (localStorage.getItem("auth-token")) {
+      fetch("http://localhost:4000/increaseitemquantity", {
+        method: "POST",
+        headers: {
+          Accept: "application/form-data",
+          "auth-token": `${localStorage.getItem("auth-token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ itemId: itemId }),
+      })
+        .then((resp) => resp.json())
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((error) => {
+          console.error("Error decreasing item quantity:", error);
         });
     }
   };
@@ -122,6 +172,8 @@ const ShopContextProvider = (props) => {
     cartItems,
     addToCart,
     removeFromCart,
+    decreaseItemQuantity,
+    increaseItemQuantity,
   };
 
   if (isLoading) {

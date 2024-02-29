@@ -15,7 +15,6 @@ const ShopCategory = (props) => {
       .then((res) => res.json())
       .then((data) => {
         setAllProducts(data);
-        console.log("allProducts", allProducts);
       });
   };
 

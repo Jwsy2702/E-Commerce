@@ -5,8 +5,14 @@ import remove_icon from "../Assets/cart_cross_icon.png";
 
 const CartItems = () => {
   //useContext is used to access the functions from ShopContext
-  const { getTotalCartAmount, products, cartItems, removeFromCart } =
-    useContext(ShopContext);
+  const {
+    getTotalCartAmount,
+    products,
+    cartItems,
+    removeFromCart,
+    decreaseItemQuantity,
+    increaseItemQuantity,
+  } = useContext(ShopContext);
 
   return (
     <div className="cartitems">
@@ -28,11 +34,25 @@ const CartItems = () => {
                 <p>{e.name}</p>
                 <p>${e.new_price}</p>
                 <div className="cartitems-input-quantity">
-                  <button className="decrease-button">-</button>
+                  <button
+                    className="decrease-button"
+                    onClick={() => {
+                      decreaseItemQuantity(e.id);
+                    }}
+                  >
+                    -
+                  </button>
                   <button className="cartitems-quantity">
                     {cartItems[e.id]}
                   </button>
-                  <button className="increase-button">+</button>
+                  <button
+                    className="increase-button"
+                    onClick={() => {
+                      increaseItemQuantity(e.id);
+                    }}
+                  >
+                    +
+                  </button>
                 </div>
                 <p>${e.new_price * cartItems[e.id]}</p>
                 <img
