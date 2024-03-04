@@ -1,12 +1,13 @@
 import React, { useContext, useState } from "react";
-import "./CSS/ChessCategory.css";
+import "./CSS/ChessCourses.css";
 import { ShopContext } from "../Context/ShopContext";
 import dropdown_icon from "../Components/Assets/dropdown_icon.png";
 import Item from "../Components/Item/Item";
 import arrow_left_circle from "../Components/Assets/arrow-left-circle.svg";
 import arrow_right_circle from "../Components/Assets/arrow-right-circle.svg";
 
-const ChessCategory = (props) => {
+//this will eventually be Products, where props contains the type of product, chess course, merchandise, etc
+const ChessCourses = (props) => {
   const { products } = useContext(ShopContext);
   const itemsPerPage = 6;
 
@@ -46,6 +47,7 @@ const ChessCategory = (props) => {
         </div>
       </div>
       <div className="chesscategory-products">
+        {/*Actual link gets entered in url when this item component renders, but definition of url done in router */}
         {sliced.map((item, i) => (
           <Item
             key={i}
@@ -54,6 +56,7 @@ const ChessCategory = (props) => {
             image={item.image}
             new_price={item.new_price}
             old_price={item.old_price}
+            type={item.category}
           />
         ))}
       </div>
@@ -82,4 +85,4 @@ const ChessCategory = (props) => {
   );
 };
 
-export default ChessCategory;
+export default ChessCourses;

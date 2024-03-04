@@ -3,9 +3,17 @@ import "./Item.css";
 import { Link } from "react-router-dom";
 
 const Item = (props) => {
+  const convertCategory = {
+    chessCourses: "chess-courses",
+    chessMerchandise: "chess-merchandise",
+    chessCoaching: "chess-coaching",
+    chessSoftware: "chess-software",
+    accessories: "accessories",
+  };
+  //this <Link will be accessed when item is clicked
   return (
     <div className="item">
-      <Link to={`/product/${props.id}`}>
+      <Link to={`/${convertCategory[props.type]}/${props.id}`}>
         <img onClick={window.scrollTo(0, 0)} src={props.image} alt="" />
       </Link>
       <p>{props.name}</p>

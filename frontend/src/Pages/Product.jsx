@@ -8,6 +8,7 @@ import RelatedProducts from "../Components/RelatedProducts/RelatedProducts";
 
 const Product = () => {
   const { products } = useContext(ShopContext);
+  //useParams hook to access :productId in router.jsx
   const { productId } = useParams();
   const product = products.find((e) => e.id === Number(productId));
 
