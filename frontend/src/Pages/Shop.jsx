@@ -8,6 +8,7 @@ import NewsLetter from "../Components/NewsLetter/NewsLetter";
 const Shop = () => {
   const [popular, setPopular] = useState([]);
   const [newcollection, setNewCollection] = useState([]);
+  console.log("rendering shop");
 
   const fetchInfo = () => {
     fetch("http://localhost:4000/popularinwomen")

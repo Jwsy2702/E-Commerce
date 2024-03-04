@@ -1,15 +1,9 @@
 import React from "react";
 import "./Item.css";
 import { Link } from "react-router-dom";
+import { convertCategory } from "../../Data/constants";
 
 const Item = (props) => {
-  const convertCategory = {
-    chessCourses: "chess-courses",
-    chessMerchandise: "chess-merchandise",
-    chessCoaching: "chess-coaching",
-    chessSoftware: "chess-software",
-    accessories: "accessories",
-  };
   //this <Link will be accessed when item is clicked
   return (
     <div className="item">

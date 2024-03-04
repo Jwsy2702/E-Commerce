@@ -2,16 +2,29 @@ import { Navigate, createBrowserRouter, useRouteError } from "react-router-dom";
 import Navbar from "../Components/Navbar/Navbar";
 import ChessCourses from "./ChessCourses";
 import Product from "./Product";
+import Shop from "./Shop";
+import Footer from "../Components/Footer/Footer";
+import Cart from "./Cart";
+import LoginSignup from "./LoginSignup";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <Navbar />,
+    element: (
+      <>
+        <Navbar />
+        <Footer />
+      </>
+    ),
     children: [
       {
         errorElement: <ErrorPage />,
         children: [
-          { index: true, element: <Navigate to="/" /> },
+          { index: true, element: <Navigate to="/shop" /> },
+          {
+            path: "/shop",
+            element: <Shop />,
+          },
           {
             path: "chess-courses",
             children: [
@@ -59,6 +72,14 @@ export const router = createBrowserRouter([
               { index: true, element: <ChessCourses category="accessories" /> },
               { path: ":productId", element: <Product /> },
             ],
+          },
+          {
+            path: "cart",
+            element: <Cart />,
+          },
+          {
+            path: "login",
+            element: <LoginSignup />,
           },
           {
             path: "*",

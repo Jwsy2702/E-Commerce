@@ -13,7 +13,7 @@ const ChessCourses = (props) => {
 
   const totalPages = Math.ceil(
     products.filter((item) => props.category === item.category).length /
-      itemsPerPage
+      itemsPerPage || 1
   );
 
   const [currentPage, setCurrentPage] = useState(1);
