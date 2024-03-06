@@ -6,6 +6,9 @@ import Shop from "./Shop";
 import Footer from "../Components/Footer/Footer";
 import Cart from "./Cart";
 import LoginSignup from "./LoginSignup";
+import CheckoutForm from "../Components/CheckoutForm/CheckoutForm";
+import Stripe from "./Stripe";
+import { Success, Cancel, PageNotFound } from "./TinyPages";
 
 export const router = createBrowserRouter([
   {
@@ -82,10 +85,17 @@ export const router = createBrowserRouter([
             element: <LoginSignup />,
           },
           {
+            path: "checkout",
+            element: <Stripe />,
+          },
+          {
+            path: "success",
+            element: <Success />,
+          },
+          { path: "cancel", element: <Cancel /> },
+          {
             path: "*",
-            element: (
-              <h1 style={{ textAlign: "center" }}>404 - Page Not Found</h1>
-            ),
+            element: <PageNotFound />,
           },
         ],
       },

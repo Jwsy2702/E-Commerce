@@ -50,7 +50,7 @@ const ShopContextProvider = (props) => {
         .then((res) => res.json())
         .then((data) => {
           if (isMounted) {
-            console.log("data", data);
+            // console.log("data", data);
             setCartItems(data);
           }
         })

@@ -1,6 +1,4 @@
 const port = 4000;
-const express = require("express");
-const app = express();
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
@@ -10,9 +8,14 @@ const cors = require("cors");
 //load env variables
 require("dotenv").config();
 
+const express = require("express");
+const app = express();
 app.use(express.json());
 //enable cors for all requests
 app.use(cors());
+
+//setup stripe
+const stripe = require("stripe")(process.env.REACT_APP_STRIPE_PRIVATE_KEY);
 
 //Image Storage Engine
 const storage = multer.diskStorage({
@@ -311,6 +314,42 @@ app.post("/removeproduct", async (req, res) => {
   const product = await Product.findOneAndDelete({ id: req.body.id });
   console.log("Removed");
   res.json({ success: true, name: req.body.name });
+});
+
+app.post("/create-checkout-session", async (req, res) => {
+  try {
+    const { products, cartItems } = req.body;
+    const lineItems = [];
+    for (const [key, value] of Object.entries(cartItems)) {
+      if (value > 0) {
+        const product = products.find(
+          (product) => product.id === parseInt(key)
+        );
+        lineItems.push({
+          price_data: {
+            currency: "usd",
+            product_data: {
+              name: product.name,
+              images: [product.image],
+            },
+            unit_amount: Math.round(product.new_price * 100),
+          },
+          quantity: value,
+        });
+      }
+    }
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      mode: "payment", //could be subscription or save payment details for charge later
+      line_items: lineItems,
+      success_url: `${process.env.YOUR_DOMAIN}/success`, //might need to use this: TODO: &session_id={CHECKOUT_SESSION_ID
+      cancel_url: `${process.env.YOUR_DOMAIN}/cancel`, //might be better to use this: TODO: canceled=true
+    });
+    res.json({ id: session.id });
+    // might be better to redirect: TODO: res.redirect(303, session.url);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
 });
 
 app.listen(port, (error) => {

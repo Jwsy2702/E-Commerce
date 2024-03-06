@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import "./CartItems.css";
 import { ShopContext } from "../../Context/ShopContext";
 import remove_icon from "../Assets/cart_cross_icon.png";
+import { loadStripe } from "@stripe/stripe-js";
 
 const CartItems = () => {
   //useContext is used to access the functions from ShopContext
@@ -13,6 +14,32 @@ const CartItems = () => {
     decreaseItemQuantity,
     increaseItemQuantity,
   } = useContext(ShopContext);
+
+  const proceedToPayments = async () => {
+    const stripe = await loadStripe(process.env.REACT_APP_STRIPE_PUB_KEY);
+    const body = {
+      products: products,
+      cartItems: cartItems,
+    };
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    const response = await fetch(
+      "http://localhost:4000/create-checkout-session",
+      {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(body),
+      }
+    );
+    const session = await response.json();
+    const result = await stripe.redirectToCheckout({
+      sessionId: session.id,
+    });
+    if (result.error) {
+      console.log("Error after checkout: ", result.error.message);
+    }
+  };
 
   return (
     <div className="cartitems">
@@ -89,7 +116,7 @@ const CartItems = () => {
               <h3>${getTotalCartAmount()}</h3>
             </div>
           </div>
-          <button>PROCEED TO CHECKOUT</button>
+          <button onClick={proceedToPayments}>PROCEED TO CHECKOUT</button>
         </div>
         <div className="cartitems-promocode">
           <p>If you have a promo code, Enter it here</p>
