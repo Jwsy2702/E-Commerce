@@ -6,7 +6,8 @@ import Shop from "./Shop";
 import Footer from "../Components/Footer/Footer";
 import Cart from "./Cart";
 import LoginSignup from "./LoginSignup";
-import CheckoutForm from "../Components/CheckoutForm/CheckoutForm";
+//for custom checkout form
+//import CheckoutForm from "../Components/CheckoutForm/CheckoutForm";
 import Stripe from "./Stripe";
 import { Success, Cancel, PageNotFound } from "./TinyPages";
 

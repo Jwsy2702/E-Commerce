@@ -1,5 +1,8 @@
+.item-container {
+  margin-right: 20px; /* Adjust the right margin to create space between items */
+}
 .item {
-  width: 350px;
+  width: 330px;
 }
 .item p {
   margin: 6px 0px;

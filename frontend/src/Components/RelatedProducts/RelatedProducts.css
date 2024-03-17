@@ -16,6 +16,11 @@
   border-radius: 10px;
   background: #252525;
 }
+.relatedproducts-container {
+  width: 100%; /* Adjust this width as needed */
+  overflow-x: auto; /* Enable horizontal scrolling */
+  white-space: nowrap; /* Prevent items from wrapping to next line */
+}
 .relatedproducts-item {
   margin-top: 50px;
   display: flex;
